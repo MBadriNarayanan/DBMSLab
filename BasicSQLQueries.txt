@@ -1,0 +1,160 @@
+1) Create table DEPT with following columns and data types.
+CloumnName null 	Data type
+Deptno 	   notnull  number(2)
+Dname 	   			char(14)
+Location 			char(13) 
+
+SQL> create table dept(deptno number(2) NOT NULL,dnmae char(14), location char(13));
+
+Table created.
+
+2) Insert in the DEPT table the following rows
+Deptno  dname 		 location
+10 		Accounting   Newyork
+20 		Research 	 Chicago
+30 		Sales 		 Dallas
+40 		Operations 	 Boston 
+
+
+SQL> insert into dept values(10,'Accounting','Newyork');
+
+1 row created.
+
+SQL> insert into dept values(20,'Research','Chicago');
+
+1 row created.
+
+SQL> insert into dept values(30,'Sales','Dallas');
+
+1 row created.
+
+SQL> insert into dept values(40,'operations','Boston');
+
+1 row created.
+
+
+3) Insert yourself as a new employee into EMP table. 
+
+SQL> create table emp(empno number(4) NOT NULL,empname varchar2(15),salary number(5));
+
+Table created.
+
+SQL> insert into emp values(1000,'Badri',70000);
+
+1 row created.
+
+4) Add a new department into the DEPT table with a department number of 99
+   location of Miami, and a department name of education. 
+   
+SQL> insert into dept values(99,'Marketing','Miami');
+
+1 row created.
+
+5) Update your own employee data by giving yourself a raise of $1000 per month. 
+
+SQL> update emp set salary = salary + 1000 where empno = 1000 ;
+
+1 row updated.
+
+
+6) View the changes you have just done.
+
+SQL> select * from emp where empno = 1000;
+
+EMPNO   EMPNAME   SALARY
+-----   -------   ------
+
+1000    Badri     71000
+
+7) Delete yourself from the EMP table. 
+
+SQL> delete from emp where empno = 1000;
+
+1 row deleted.
+
+8) Select from EMP table to check whether the row is existing. 
+
+SQL> select * from emp;
+
+no rows selected.
+
+9) Create a duplicate EMP table name is EMPTEST. 
+
+SQL> create table emptest as select * from emp;
+
+Table created.
+
+10) Add a new column named SEX to the EMPTEST table with data type of character
+and length 1.
+
+SQL> alter table emptest add (sex char(1));
+
+Table altered.
+
+11) Display and see the structure of table EMPTEST.
+
+SQL> desc emptest;
+
+
+Name		Null		Type
+----		----		----
+
+EMPNO		NOT NULL	NUMBER(4)
+EMPNAME					VARCHAR2(15)
+SALARY					NUMBER(5)
+SEX						CHAR(1)
+
+
+12) The user have changed their mind. Instead of storing SEX as F or M, they want to
+store SEX as MALE or FEMALE. So increase the size of the SEX column.
+
+SQL> alter table emptest modify(sex char(6));
+
+Table altered.
+
+13) Display each employee’s name and hire date.
+
+SQL> alter table emptest add(hiredate date);
+
+Table altered.
+
+SQL> insert into emptest values(1000,'Badri',71000,'Male',DATE'2019-07-05);
+
+1 row created.
+
+SQL> insert into emptest values(1001,'Badri R',60000,'Male',DATE'2019-07-05);
+
+1 row created.
+
+SQL> insert into emptest values(999,'ArunLaxman',50000,'Male',DATE'2019-07-05);
+
+1 row created.
+
+SQL> select empname,hiredate from emptest;
+
+EMPNAME			HIREDATE
+-------			--------
+Badri			05-JUL-19
+Badri R			05-JUL-19
+ArunLaxman		05-JUL-19
+
+
+14) Display the information in the above query with hire date appearing first. 
+
+
+SQL> select hiredate,empname from emptest;
+
+HIREDATE		EMPNAME		
+-------			--------
+05-JUL-19		Badri			
+05-JUL-19		Badri R			
+05-JUL-19		ArunLaxman		
+
+
+SQL> drop table dept;
+
+Table dropped.
+
+SQL> drop table emptest;
+
+Table dropped.
