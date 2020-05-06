@@ -1,0 +1,338 @@
+1) Write a query using built-in function to round-off a number to nearest whole
+number.
+
+SQL> select round(236.423,0) from dual;
+
+ROUND(236.423,0)
+----------------
+      236
+      
+2) Write a query using built-in function to find the absolute value of a number.
+
+SQL> select abs(-33.68) from dual;
+
+ABS(-33.68)
+-----------
+      33.68
+      
+3) Write a query using built-in function to retain the decimal part and truncate the
+fractional part in a number.
+
+
+SQL> select floor(8.8) from dual;
+
+FLOOR(8.8)
+---------
+        8
+        
+        
+4) Write a query using built-in function to find the remainder as a result of division
+between two numbers.
+
+
+SQL> select mod(11,3) from dual;
+
+MOD(11,3)
+---------
+        2
+        
+        
+5) Write a query using built-in function to find the sign of a value without its
+magnitude.
+
+SQL> select sign(-36.78) from dual;
+
+SIGN(-36.78)
+-----------
+         -1
+         
+         
+6) Write a query using built-in function to find the value of a number m raised to
+power n.
+
+SQL> select power(3,3) from dual;
+
+POWER(3,3)
+----------
+        27
+        
+        
+7) Write a query using built-in function to find the square root of a number.
+
+
+SQL> select sqrt(64) from dual;
+
+SQRT(64)
+--------
+      8
+8) Write a query using built-in function to round off a number to the nearest integer
+with respect to the decimal places.
+
+
+SQL> select round(&num,&n) from dual ;
+
+Enter value for num: 123.456
+
+Enter value for n: 2
+
+old 1: select round(&num,&n) from dual 
+
+new 1: select round(123.456,2) from dual 
+
+ROUND(123.456,2)
+---------------
+          123.46
+          
+          
+9) Write a query using built-in function to find the exponential of a number.
+
+SQL> select exp(7) from dual;
+
+EXP(7)
+------
+1096.63316
+
+
+10) Write a query using built-in function to accept a character/ column of characters as input and return as output the initial character in uppercase.
+
+SQL> select initcap('&string') from dual;
+
+Enter value for string: badri
+
+old 1: select initcap('&string') from dual
+
+new 1: select initcap('badri') from dual
+
+
+INITC
+-----
+Badri
+
+11) Write a query using built-in function to accept a character/ column of characters as input and return as output in uppercase and lowercase.
+
+SQL> select upper('&string'),lower('&string') from dual ;
+
+Enter value for string: badri
+
+Enter value for string: BADRI
+
+old 1: select upper('&string'),lower('&string' 
+
+new 1: select upper('badri'),lower('BADRI'
+
+UPPER     LOWER
+-----     ------
+BADRI     badri
+
+
+12) Write a query using built-in function to concatenate two strings.
+
+SQL> select concat('&string1','&string2') from dual ;
+
+Enter value for string1: Badri
+
+Enter value for string2: Narayanan
+
+old 1: select concat('&string1','&string2') from dual 
+
+new 1: select concat('Badri','Narayanan') from dual 
+
+
+CONCAT('BADRI'
+-------------
+BadriNarayanan
+
+
+13) Write a query using built-in function to find character equivalent of a number.
+
+SQL> select to_char(18) from dual;
+
+TO
+---
+18
+
+
+14) Write a query using built-in function to left pad and right pad a string with *.
+
+SQL> select lpad('Badri',10,'*'),rpaf('Badri',10,'*') from dual;
+
+LPAD('BADR    RPAD('BADR
+---------     -----------
+*****Badri    Badri*****
+
+
+15) Write a query using built-in function to perform right and left trim of a string.
+
+SQL> select rtrim('Badri     '),ltrim('     Badri') from dual;
+
+RTRIM   LTRIM
+-----   ------
+Badri   Badri
+
+
+16) Write a query using built-in function to extract specified number of characters
+from a string.
+
+SQL> select substr('Badri',1,3) from dual ;
+
+SUB
+---
+Bad
+
+
+17) Write a query using built-in function to return the length of a string up to the first
+occurrence of the character specified.
+
+SQL> select instr('Badri','i') -1 from dual ;
+
+INSTR('BADRI','I')-1
+--------------------
+                  4
+                  
+18) Write a query using built-in function to find the ascii equivalent of a character given as input.
+
+SQL> select ASCII('&character') from dual ;
+
+Enter value for character: B
+
+old 1: select ASCII('&character') from dual
+
+new 1: select ASCII('B') from dual
+
+ASCII('B')
+----------
+       66
+
+19) Write a query using built-in function to find the length of a string/ group of string given as input.
+
+SQL> select length('&string') from dual;
+
+Enter value for string: Badri
+
+old 1: select length('&string'') from dual
+
+new 1: select length('Badri') from dual
+
+LENGTH('BADRI')
+--------------
+            5
+            
+20) Write a query using built-in function to extract specified number of characters and replace with new characters from specified string.
+
+SQL> select replace('&string',substr('&string',&start_index,&stop_index)
+2    ,'&newstring') from dual ;
+
+Enter value for string: Badri
+
+Enter value for string: Badri
+
+Enter value for start_index: 3
+
+Enter value for stop_index: 5
+
+old 1: select replace('&string',substr('&string',&start_index,&stop_index)
+
+new 1: select replace('Badri',substr('Badri',3,5)
+
+REPL
+----
+Bair
+
+21) Write a query using built-in function to replace a particular character in a string by a particular character.
+
+SQL> select replace('&string','&char_to_replace','&replacing_char') from dual;
+
+Enter value for string: Badri
+
+Enter value for char_to_replace: a
+
+Enter value for replacing_char: e
+
+old 1: select replace('&string','&char_to_replace','&replacing_char') from dual
+
+new 1: select replace('Badri','a','e') from dual
+
+REPLA
+-----
+Bedri
+
+
+22) Write a query using built-in function to find today’s date.
+
+SQL> select sysdate from dual;
+
+SYSDATE
+-------
+23-AUG-19
+
+
+23) Write a query using built-in function to increase a particular/ group of date by number of months specified.
+
+SQL> select add_months(sysdate,&num) from dual;
+
+Enter value for num: 4
+
+old 1: select add_months(sysdate,&num) from dual
+
+new 1: select add_months(sysdate,4) from dual
+
+ADD_MONTH
+---------
+23-DEC-19
+
+
+24) Write a query using built-in function to find the last date of the month in the particular date specified.
+
+SQL> select last_day('&date') from dual;
+
+Enter value for date: 23-AUG-2019
+
+old 1: select last_day('&date') from dual
+
+new 1: select last_day('23-AUG-2019') from dual
+
+LAST_DAY(
+---------
+31-AUG-19
+
+
+25) Write a query using built-in function to find the number of months between two date.
+
+SQL> select months_between
+2    (to_date('02-02-1995','mm-dd-yyyy'),
+3     to_date('01-01-1995','mm-dd-yyyy')) from dual ;
+
+MONTHS_BETWEEN(TO_DATE('02-02-1995
+----------------------------------
+        1.O3225806
+        
+        
+26) Write a query using built-in function to round off a particular date to the next month that follows.
+
+SQL> select round(to_date('&date'),'MONTH) from dual;
+
+Enter value for date: 16-AUG-2019
+
+old 1: select round(to_date('&date'),'MONTH) from dual
+
+new 1: select round(to_date('16-AUG-2019'),'MONTH) from dual
+
+ROUND(TO_
+---------
+01-SEP-19
+
+
+27) Write a query using built-in function to round off the date to the nearest Sunday. 
+
+SQL> select(round(to_date('&date'),'DAY') from dual ;
+
+Enter value for date: 23-AUG-2019
+
+old 1: select(round(to_date('&date'),'DAY') from dual 
+
+new 1: select(round(to_date('23-AUG-2019'),'DAY') from dual 
+
+ROUND(TO_
+----------
+25-AUG-19
+
