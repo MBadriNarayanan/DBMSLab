@@ -1,0 +1,573 @@
+Create an employee table with the following description:
+Name                Type
+Emp.No              Number
+Name                varchar2
+Designation         varchar2
+Dept.No             number
+Dept.Name           varchar2
+Date of joining     Date
+Salary              Number
+
+
+Read the queries and insert 10 valid records accordingly. 
+
+
+SQL> create table employee (  empno number(4) NOT NULL,
+                              name varchar2(15),
+                              designation varchar2(11),
+                              deptno number(2),
+                              deptname varchar2(10),
+                              doj date,
+                              salary number(7)
+                              
+                           );
+
+Table created.
+
+SQL> insert into employee values(7132,'Badri','Analysts',1,'Marketing',DATE'1984-01-18',5000);
+
+1 row created.
+
+SQL> insert into employee values(7122,'Pradeep','Analysts',10,'Marketing',DATE'1980-09-30',2500);
+
+1 row created.
+
+SQL> insert into employee values(7523,'Sanjay','Clerk',20,'Production',DATE'2016-11-18',1450);
+
+1 row created.
+
+SQL> insert into employee values(7534,'Nivas','Salesman',30,'Executive',DATE'1980-09-12',2100);
+
+1 row created.
+
+SQL> insert into employee values(7132,'Vinay','Analysts',10,'Marketing',DATE'1981-08-11',2870);
+
+1 row created.
+
+SQL> insert into employee values(7489,'Sethupathi','Manager',40,'Sales',DATE'1999-05-02',5000);
+
+1 row created.
+
+SQL> insert into employee values(7639,'Ajith','Clerk',20,'Production',DATE'1977-03-01',1800);
+
+1 row created.
+
+SQL> insert into employee values(7521,'Anoosh','Salesman',30,'Executive',DATE'1995-02-02',2600);
+
+1 row created.
+
+SQL> insert into employee values(7333,'Laxman','Manager',40,'Sales',DATE'1981-12-05',2220);
+
+1 row created.
+
+SQL> insert into employee values(7878,'Arun','Clerk',20,'Production',DATE'1975-01-26',1780);
+
+1 row created.
+
+
+1) List all the employees belonging to department number 10.
+
+SQL> select * from employee where deptno = 10;
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME    DOJ       SALARY
+-----   ---       -----------     ------      --------    ---        ------
+7122    Pradeep   Analysts          10        Marketing   30-SEP-80   2500
+7365    Vinay     Analysts          10        Marketing   11-AUG-81   2870
+
+2 rows selected.
+
+
+2) List the name and salary of the employees whose salary is greater than 1000.
+
+SQL> select name,salary from employee where salary > 1000;
+
+NAME        SALARY
+----        ------
+Badri       5000
+Pradeep     2500
+Sanjay      1450
+Nivas       2100
+Vinay       2870
+Sethupathi  5000
+Ajith       1800
+Anoosh      2600
+Laxman      2220
+Arun        1780
+
+
+10 rows selected.
+
+3) List the name of the clerks working in department number 20.
+
+SQL> select name from employee where deptno = 20 and designation = 'Clerk' ;
+
+NAME
+----
+Sanjay
+Ajith
+Arun
+
+3 rows selected.
+
+4) List the employee number and name of the managers.
+
+
+SQL> select empno,name from employee where designation = 'Manager' ;
+
+EMPNO     NAME
+-----     -----
+7489      Sethupathi
+7333      Laxman
+
+
+2 rows selected.
+
+
+5) List the names of analysts and salesmen.
+
+SQL> select name from employee where designation in ('Analysts','Salesman') ;
+
+NAME
+----
+Badri
+Pradeep
+Nivas
+Vinay
+Anoosh
+
+5 rows selected.
+
+6) List the details of the employees who have joined before the end of 30 September
+80.
+
+SQL> select * from employee where doj < '30-SEP-80' ; 
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME    DOJ       SALARY
+-----   ---       -----------     ------      --------    ---        ------
+7534    Nivas     Salesman          30        Executive    12-SEP-80   2100
+7369    Ajith     Clerk             20        Production   01-MAR-77   1800
+7878    Arun      Clerk             20        Production   26-JAN-75   1780
+
+3 rows selected.
+
+7) List the employees who are not managers.
+
+SQL> select name from employee where designation not in('Manager') ;
+
+
+NAME
+----
+Badri
+Pradeep
+Snajay
+Nivas
+Vinay
+Ajith
+Anoosh
+Arun
+
+8 rows selected.
+
+
+8) List the name of the employees whose employee numbers are 7369 and 7521.
+
+SQL> select name from employee where empno in (7369,7521) ;
+
+
+NAME
+----
+Ajith
+Anoosh
+
+2 rows selected.
+
+9) List the details of the employees not belonging to the departments 10, 30 and 40.
+
+SQL> select * from employee where deptno not in (10,30,40) ;
+
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME    DOJ         SALARY
+-----   ---       -----------     ------      --------    ---         ------
+7132    Badri     Analysts          1         Marketing    18-JAN-84   5000
+7523    Sanjay    Clerk             20        Production   18-NOV-16   1450
+7369    Ajith     Clerk             20        Production   01-MAR-77   1800
+7878    Arun      Clerk             20        Production   26-JAN-75   1780
+
+4 rows selected.
+
+10) List the name and salary for the employees whose salary is between 1000 and
+2000.
+
+
+SQL> select name,salary from employee where salary > 1000 and salary < 2000 ;
+
+NAME      SALARY
+----      ------
+Sanjay    1450
+Ajith     1800
+Arun      1780
+
+3 rows selected.
+
+11) List the names of the employees who have joined before 30 June 81 and after 31
+Dec 81.
+
+SQL> select name from employee where doj < '30-JUN-81' and doj > '31-DEC-81';
+
+no rows selected.
+
+12) List the different jobs in the employee table.
+
+SQL> select distinct designation from employee ;
+
+DESIGNNATION
+------------
+Clerk
+Manager
+Analysts
+Salesman
+
+4 rows selected.
+
+
+13) List the names of the employees who are not eligible for commission.
+
+SQL> select name from employee where salary > 2000 ;
+
+NAME
+----
+Badri
+Pradeep
+Nivas
+Vinay
+Sethupathi
+Anoosh
+Laxman
+
+7 rows selected.
+
+
+14) List the name and designation of the employees who does not report to anybody.
+
+SQL> select name,designation from employee where designation = 'Analysts'
+
+NAME      DESIGNATION
+----      -----------
+Badri      Analysts
+Pradeep    Analysts
+Vinay      Analysts
+
+3 rows selected.
+
+15) List the details of employees who are not assigned to any department.
+
+SQL> select * from employee where deptname = NULL ;
+
+no rows selected.
+
+
+16) List the details of employees who are eligible for commission.
+
+
+SQL> select * from employee where salary <= 2000 ;
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME    DOJ         SALARY
+-----   ---       -----------     ------      --------    ---         ------
+7523    Sanjay    Clerk             20        Production   18-NOV-16   1450
+7369    Ajith     Clerk             20        Production   01-MAR-77   1800
+7878    Arun      Clerk             20        Production   26-JAN-75   1780
+
+3 rows selected.
+
+
+17) List the details of employees whose salary is greater than 2000 and have no
+commission.
+
+
+SQL> select * from employee where salary >= 1500 ;
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME    DOJ         SALARY
+-----   ---       -----------     ------      --------    ---         ------
+7132    Badri         Analysts       1         Marketing    18-JAN-84    5000
+7122    Pradeep       Analysts       10        Marketing    30-SEP-80    2500
+7534    Nivas         Salesman       30        Executive    12-SEP-80    2100
+7365    Vinay         Analysts       10        Marketing    11-AUG-81    2870
+7489    Sethupathi    Manager        40        Sales        02-MAY-99    5000
+7521    Anoosh        Salesman       30        Executive    02-FEB-95    2600
+7333    Laxman        Manager        40        Sales        26-DEC-81    2220
+
+
+7 rows selected.
+
+
+18) List the details of employees whose name start with ‘S’.
+
+
+SQL> select * from employee where name like 'S%' ;
+
+EMPNO   NAME      DESIGNATION     DEPTNO      DEPTNAME      DOJ         SALARY
+-----   ---       -----------     ------      --------      ---         ------
+7523    Sanjay        Clerk          20        Production   18-NOV-16    1450
+7489    Sethupathi    Manager        40        Sales        02-MAY-99    5000
+
+2 rows selected.
+
+
+19) List the names of employees whose name end with ‘s’.
+
+SQL> select name fro employee where name like '%s' ;
+
+NAME
+----
+Nivas
+
+1 row selected.
+
+
+20) List the names of the employees whose name has exactly 5 characters.
+
+
+SQL> select name from employee where name like '_____' ;
+
+NAME
+----
+Badri
+Nivas
+Vinay
+Ajith
+Arun
+
+5 rows selected.
+
+
+21) List the names of employees whose name has ‘i’ as second character.
+
+SQL> select name from employee where name like '_i%' ;
+
+no rows selected.
+
+
+22) List the names of the employees in ascending order of their salaries.
+
+SQL> select name from employee order by salary ;
+
+NAME
+----
+Sanjay
+Arun
+Ajith
+Nivas
+Laxman
+Pradeep
+Anoosh
+Vinay
+Badri
+Sethupathi
+
+10 rows selected.
+
+23) List the name, salary and PF amount which is 10% of the salary of all employees.
+
+SQL> alter table employee add (pf number(5)) ;
+
+Table altered.
+
+SQL> update employee set pf = salaty * 0.1 ;
+
+10 rows updated.
+
+SQL> select name,salary,pf from employee ;
+
+NAME        SALARY          PF
+----        ------          ---
+Badri       5000            500
+Pradeep     2500            250
+Sanjay      1450            145
+Nivas       2100            210
+Vinay       2870            287
+Sethupathi  5000            500
+Ajith       1800            180
+Anoosh      2600            260
+Laxman      2220            222
+Arun        1790            178
+
+
+10 rows selected.
+
+
+24) List the name, salary, designation and department number of employees in the
+descending order of their department number.
+
+
+SQL> select name,designation,deptno,salary from employee order by deptno DESC;
+
+NAME        DESIGNATION     DEPTNO      SALARY
+-----       -----------     ------      ------
+Laxman        Manager        40         2220
+Sethupathi    Manager        40         5000
+Anoosh        Salesman       30         2600
+Nivas         Salesman       30         2100
+Sanjay        Salesman       20         1450
+Arun          Clerk          20         1780
+Ajith         Clerk          20         1800
+Pradeep       Analysts       10         2500
+Vinay         Analysts       10         2870
+Badri         Analysts       1          5000
+
+10 rows selected.
+
+
+25) List the total number of employees.
+
+SQL> select count(*) from employee ;
+
+COUNT(*)
+--------
+10
+
+
+26) List the number of distinct jobs available.
+
+
+SQL> select count(distinct designation) from employee ;
+
+COUNT(DISTINCT DESIGNATION)
+---------------------------
+                    4
+
+
+27) List the total salaries of the employees.
+
+
+SQL> select sum(salary) from employee ;
+
+SUM(SALARY)
+-----------
+27320
+
+
+28) List the average salary and number of employees belonging to department number
+20.
+
+SQL> select avg(salaey),count(*) from employee where deptno = 20 '
+
+AVG(SALARY)     COUNT(*)
+----------      --------
+1676.66667      3
+
+
+29) List the department number and number of employees in each department.
+
+SQL> select deptno,count(*) from employee group by deptno ;
+
+DEPTNO      COUNT(*)
+------      --------
+1           1
+30          2
+20          3
+30          2
+10          2
+
+
+30) List the department number and total of salaries in each department.
+
+SQL> select deptno,sum(salary) from employee group by deptno ;
+
+DEPTNO      SUM(SALARY)
+-----       ----------
+1           5000
+30          4700
+20          5030
+40          7220
+10          5370
+
+
+31) List the jobs and number of employees in each job. The result should be in
+ascending order of number of employees in each department.
+
+
+SQL> select designation , count(*) as no_of_emp from employee 
+2    group by designation order by no_of_emp ;
+
+DESIGNATION         NO_OF_EMP
+----------          ---------
+Manager             2
+Salesman            2
+Analysts            3
+Clerk               3
+
+
+32) List the jobs, maximum salary, minimum salary, average salary from employees
+according to their designation.
+
+SQL> select designation,max(salary),min(salary),avg(salary) from employee
+2    group by designation;
+
+DESIGNATION     MAX(SALARY)   MIN(SALARY)   AVG(SALARY)
+----------      ----------    -----------   -----------
+Clerk            1800         1450          1676.66667
+Manager          5000         2220          3610
+Analysts         5000         2500          3456.66667
+Salesman         2600         2100          2350
+
+
+33) List the average salary of employees for each job excluding the manager.
+
+SQL> select avg(salary) from employee group by designation
+2    having designation <> 'Manager' ;
+
+AVG(SALARY)
+----------
+1676.66667
+3456.66667
+2350
+
+
+34) List the department number, job and average salary of employees for all jobs
+according to their department numbers.
+
+
+SQL> select deptno,avg(salary) from employee group by deptno ;
+
+DEPTNO      AVG(SALARY)
+------      ----------
+1           5000
+30          2350
+20          1676.66667
+40          3610
+10          2685
+
+35) List the department number and average salary of employees belonging to
+departments which employ more than 5 employees.
+
+SQL> select deptno,avg(salary) from employee group by deptno
+2    having count(*) > 5 ;
+
+no rows selected.
+
+36) List the jobs of employees where the maximum salary of the job is greater than or
+equal to 5000.
+
+SQL> select designation from employee group by designation
+2    having max(salary) >= 5000;
+
+DESIGNATION
+-----------
+Manager
+Analysts
+
+37) List the total salary, minimum salary, maximum salary and average salary of the
+employees belonging to department 20. Display only those rows having their
+average salary greater than 1000. 
+
+
+SQL> select sum(salary) as total,min(salary),max*salary),avg(salary)
+2    from employee
+3    where deptno = 2 group by deptno
+4    having avg(salary) > 1000;
+
+no rows selected.
+
+SQL> drop table employee
+
+Table dropped.
