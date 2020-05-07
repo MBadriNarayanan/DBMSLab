@@ -1,0 +1,327 @@
+Create the following tables :
+
+Bus-details
+1. Bus_code(primary key) number
+2. Bus_desc varchar
+
+Bus-route
+1. Route_id(primary key) number
+2. Route_no(unique) number
+3. Bus_code(foreign key) number
+4. Origin Varchar
+5. destination varchar
+6. fare number
+7. dist number
+8. capacity number
+
+Journey
+1. Journey_id(primary key) number
+2. date of Journey(Not Null) date
+3. Time(Not Null) varchar2
+4. Route_id(foreign key) number
+5. Bus_code(foreign key) number
+
+Ticket
+1. Journey_id(foreign key) number
+2. Ticket_no(primary key) number
+3. Date of Birth date
+4. Date of Journey date
+5. Time(Not Null) varchar2
+6. Station varchar
+7. Origin(Not Null) Varchar
+8. destination(Not Null) varchar
+9. Adults number
+10.Total fare number
+11.Route_id(foreign key) number
+
+Ticket_detail
+1. Ticket_no number
+2. Name varchar
+3. Sex char
+4. Age number
+5. Fare number
+
+
+SQL> create table busdetails(bcode number(3) primary key,bdesc varachar(10));
+
+Table created.
+
+SQL> create table bus_route(
+2                             rid number(3) primary key,rno number(3) unique,
+3                             bcode number(3),origin varchar(1),dest varchar(11),
+4                             fare number(6),dis number(6),capacity number(4),
+5                             foreign key(bcode) references bus_details(bcode)
+6                          );
+                            
+
+Table created.
+
+SQL> create table journey(
+2                             jid number(3) primary key,doj date NOT NULL,
+3                             time varchar2(9) NOT NULL,rid number(3),bcode number(3),
+4                             foreign key(rid) references bus_route(routeid),
+5                             foreign key(bcode) references bus_details(bcode)
+6                          );
+
+
+Table created.
+
+SQL> create table ticket(
+2                             jid number(3),tno number(4) primary key,
+3                             dob date,doj date,time varchar2(9) NOT NULL,
+4                             station varchar(10),origin varchar(10) NOT NULL,
+5                             dest varchar(11) NOT NULL,adults number(2),
+6                             tfare number(6),rid number(3),
+7                             foreign key(jid) references journey(jid),
+8                             foreign key(rid) references bus_route(routeid)
+9                       );
+
+Table created.
+
+
+SQL> create table ticketdetail(
+2                                 tno number(4),name varchar2(10),
+3                                 sex char(1),age number(2),fare number(6)
+4                             )
+
+Table created.
+
+SQL> insert into busdetails values(1,'AC Sleeper');
+
+1 row created.
+
+SQL> insert into busdetails values(2,'Deluxe');
+
+1 row created.
+
+SQL> insert into busdetails values(3,'Super Fast');
+
+1 row created.
+
+SQL> insert into busdetails values(4,'Non-AC Semi-Sleeper');
+
+1 row created.
+
+SQL> insert into bus_route values(1,101,1,'Chennai','Salem',850,345,20);
+
+1 row created.
+
+SQL> insert into bus_route values(2,102,2,'Salem','Chennai',600,345,15);
+
+1 row created.
+
+SQL> insert into bus_route values(3,103,3,'Chennai','Hyderbad',650,659,20);
+
+1 row created.
+
+SQL> insert into bus_route values(4,104,4,'Hyderbad','Chennai',400,650,50);
+
+1 row created.
+
+SQL> insert into journey values (01,'29-AUG-19','5:00',1,1);
+
+1 row created.
+
+SQL> insert into journey values (02,'05-JAN-19','14:00',2,2);
+
+1 row created.
+
+SQL> insert into journey values (03,'14-FEB-19','10:00',3,3);
+
+1 row created.
+
+SQL> insert into journey values (04,'10-MAR-19','22:00',4,4);
+
+1 row created.
+
+SQL> insert into ticket values(01,001,'05-JAN-01','29-AUG-19','5:00','CMBT','Chennai','Salem',10,8500,1) ;
+
+1 row created.
+
+SQL> insert into ticket values(02,002,'24-OCT-73','05-JAN-19','14:00','5-Roads','Salem','Chennai',10,6000,2) ;
+
+1 row created.
+
+SQL> insert into ticket values(03,003,'05-JUL-00','14-FEB-19','10:00','CMBT','Chennai','Hyderbad',15,9700,3) ;
+
+1 row created.
+
+SQL> insert into ticket values(04,004,'29-AUG-98','10-MAR-19','22:00','BHEL','Hyderbad','Chennai',20,8000,4) ;
+
+1 row created.
+
+SQL> insert into ticket_detail values(001,'Haley','F',18,850);
+
+1 row created.
+
+SQL> insert into ticket_detail values(002,'Phil','M',45,600');
+
+1 row created.
+
+SQL> insert into ticket_detail values(003,'John','M',19,650);
+
+1 row created.
+
+SQL> insert into ticket_detail values(004,'Dylan','M',21,400);
+
+1 row created.
+
+Queries
+
+1) Display the bus description which is having the least capacity.
+
+SQL> select bdesc from bus_details where bcode = (select bcode from bus_route
+2    where capacity = select(min(capacity) from bus_route));
+
+BDESC
+-----
+Deluxe
+
+1 row selected.
+
+
+2) How many buses are having destination as Chennai?
+
+SQL> select count(*) from bus_route where dest = 'Chennai' ;
+
+COUNT(*)
+--------
+      2
+
+3) How many passengers are traveling below 21 years of age?
+
+SQL> select count(*) from ticket_detail where age < 21 ;
+
+COUNT(*)
+--------
+      2
+
+4) Display the bus description which is having the highest fare.
+
+SQL> select bdesc from bus_details where bcode = (select bcode from bus_route
+2    where fare = select(max(fare) from bus_route));
+
+BDESC
+-----
+AC Sleeper
+
+1 row selected.
+
+
+5) Display the names of the passengers who have booked their ticket in
+the month of January.
+
+SQL> select name from ticket_detail where tno in (select tno from ticket
+2    where to_char(doj,'MON') = 'JAN');
+
+NAME
+-----
+Phil
+
+1 row selected.
+
+6) Display the description and Bus Code of the bus whose fare is greater
+than the average fare in the table.
+
+SQL> select bdesc,bcode from bus_details where bcode in(select bcode from 
+2    bus_route where fare > (select avg(fare) from bus_route));
+
+BDESC         BCODE
+-----         ------
+AC Sleeper    1
+Super Fast    3
+
+2 rows selected.
+
+7) How many female passengers are traveling in the Deluxe Bus?
+
+SQL> select count(*) from ticket_detail where tno in(select tno from ticket
+2    where rid in(select rid from bus_route where bcode in(select bcode from
+3    bus_details where bdesc = 'Deluxe'))) and sex = 'F' ;
+
+COUNT(*)
+-------
+      0
+
+
+8) How many male passengers are traveling in the Super Fast Bus?
+
+SQL> select count(*) from ticket_detail where tno in(select tno from ticket
+2    where rid in(select rid from bus_route where bcode in(select bcode from
+3    bus_details where bdesc = 'Super Fast'))) and sex = 'M' ;
+
+COUNT(*)
+-------
+      1
+ 
+ 
+9) Display the names of the passengers who departure from Bangalore.
+
+SQL> select name from ticket_detail where tno in (select tno from ticket
+2    where origin = 'Bangalore');
+
+no rows selected.
+
+
+10) Display the journey time of the passenger "John".
+
+SQL> select time from ticket where tno = (select tno from ticket_detail 
+2    where name = 'John');
+
+TIME
+-----
+10:00
+
+1 row selected.
+
+
+11) Display the bus description which are neither originating from Chennai nor reaching Chennai.
+
+SQL> select bdesc from bus_details where bcode in(select bcode from
+2    bus_routw where origin <>'Chennai' and dest <>'Chennai' ) ;
+
+no rows selected.
+
+
+12) Select rows from Bus route such that the route id's are greater than any of the ticket nos with J_id as 02 in the journey table.
+
+SQL> select br.rid,br.rno,br.bcode,br.origin,br.dest,br.fare,br.dis,br.capacity 
+2    from bus_route as br,journey as j,ticket as t where br.rid = j.rid and 
+3    j.jid = t.jid annd j.rid > any(select tno from ticket) and j.jid = 02 ;
+
+RID   RNO   BCODE   ORIGIN    DEST    FARE    DIS   CAPACITY
+---   ---   -----   -------   ----    -----   ---   ---------
+2     102     2     Salem     Chennai  600    345     15
+
+1 row selected.
+
+13) Select rows from Bus route such that the route id's are greater than all the ticket nos with J_id as 02 in the journey table.
+
+SQL> select br.rid,br.rno,br.bcode,br.origin,br.dest,br.fare,br.dis,br.capacity 
+2    from bus_route as br,journey as j,ticket as t where br.rid = j.rid and 
+3    j.jid = t.jid annd j.rid > any(select tno from ticket) and j.jid = 02 ;
+
+no rows selected.
+
+14) Select rows from ticket such that the ticket number exceeds the average of the total fare and the origin for such number should be Chennai.
+
+SQL> select * from ticket where tno > (select avg(tfare) from ticket)
+2    and origin = 'Chennai' ;
+
+no rows selected.
+
+
+15) Select distinct route id's from bus route and ticket tables.
+
+SQL> select distinct(br.rid) from bus_route as br,ticket ;
+
+RID
+----
+1
+2
+3
+4
+
+4 rows selected.
+
+
