@@ -1,0 +1,163 @@
+Note : Use the tables created for Joins,SubQueries & SetOperators
+
+1) Create a view jview from journey table such that it contains day, time and route id with j_day, j_time and j_rid as column headings.
+
+SQL> create view jview(j_day,j_time,j_rid) as select doj,time,rid from journey ;
+
+View created.
+
+
+2) Update the jview such that j_day is 20-jan-2018 and j_rid is 301.
+
+SQL> update jview set j_date = '20-JAN-18' where j_rid = 301 ;
+
+0 rows updated.
+
+
+3) Select the contents of the corresponding table that jview is based and check whether the update has occurred.
+
+SQL> select doj,time,rid from journey ;
+
+DOJ           TIME        RID
+----          ----        ---
+29-AUG-19     5:00        1
+05-JAN-19     14:00       2
+14-FEB-19     10:00       3
+10-MAR-19     22:00       4
+
+4 rows selected.
+
+
+4) Create a synonym passenger for ticket_detail table.
+
+SQL> create synonym passenger for ticket_detail ;
+
+Synonym created.
+
+
+5) Display the contents of passenger.
+
+SQL> select * from passenger ;
+
+TNO     NAME      S     AGE     FARE
+----    -----     --    ---     ----
+1       Haley     F     18      850
+2       Phil      M     45      600
+3       John      M     19      650
+4       Dylan     M     21      400
+
+4 rows selected.
+
+
+6) Create a synonym bus details for busroute1 table.
+
+SQL> create synonym route_detail for bus_route ;
+
+Synonym created.
+
+
+7) Drop the passenger synonym created previously.
+
+SQL> drop synonym passenger ;
+
+Synonym dropped.
+
+
+8) Create an index on route_id column on busroute table.
+
+SQL> create index dis_index on bus_route(dis) ;
+
+Index created.
+
+
+9) Drop the index what you had created.
+
+SQL> drop index dis_index ;
+
+Index dropped.
+
+
+10) Create a sequence ticket where minimum value is 1 and maximum value is 20 and increment it with 2 starting with 1.
+
+SQL> create sequence ticseq minvalue 1 maxvalue 20 increment by 2 start with 1 ;
+
+Sequence created.
+
+
+11) Insert the sequence ticket into the ticket column of ticket table.
+
+SQL> alter table ticket(t_seq number) ;
+
+Table altered.
+
+SQL> update ticket set t_seq = ticseq.nextval ;
+
+4 rows updated.
+
+
+12) Alter the sequence such that the maximum value is 25.
+
+SQL> alter sequence ticseq maxvalue 25 ;
+
+Sequence altered ;
+
+13) List all the sequences created by you.
+
+SQL> select sequence_name from user_sequences ;
+
+SEQUENCE_NAME
+------------
+TICSEQ
+
+
+14) List all the views created by you.
+
+SQL> selec view_name from user_views ;
+
+VIEW_NAME
+--------
+JVIEW
+
+15) List all the indexes created by you.
+
+SQL> select index_name from user_indexes ;
+
+INDEX_NAME
+---------
+SYS_C005423
+SYS_C005424
+SYS_C005425
+SYS_C005429
+
+
+
+16) Drop all the database objects created by you.
+
+SQL> drop sequence ticseq ;
+
+Sequence dropped.
+
+SQL> drop view jview ;
+
+View dropped.
+
+SQL> drop table busdetails ;
+
+Table dropped.
+
+SQL> drop table bus_routes;
+
+Table dropped.
+
+SQL> drop table journey ;
+
+Table dropped.
+
+SQL> drop table ticket ;
+
+Table dropped.
+
+SQL> drop table ticketdetail ;
+
+Table dropped.
+
