@@ -1,1 +1,85 @@
+1) Create a trigger for emp table which makes the entry in name column in upper case.
+
+create or replace trigger upper_case_name before insert on employee for each row
+
+declare
+
+        dup_flag INTEGER;
+
+        begin
+
+              :new.name := upper(:new.name);
+
+        end;      
+/
+
+Trigger created.
+
+
+SQL> insert into employee values(1,'Badri','Clerk',12,'IT','23-AUG-99',45000);
+
+SQL> select * from employee ;
+
+EMPNO       NAME        DESIGNATION         DEPTNO          DNAME           JDATE         SALARY
+------      ------      ------------        -------         ------          ------        -------
+1           BADRI       Clerk               12               IT             23-AUG-99     45000
+
+
+2) Create a trigger for inserting, updating records into emp table and sal should be greater than 10000.
+
+
+create or replace trigger checker2 before insert on emp for each row
+
+begin
+
+      if(:new.salary<10000') then
+                
+                raise_application_error(-20500,'WRONG');
+      
+      end if;
+           
+end;      
+
+
+Trigger created.
+
+
+3) Create a trigger on emp table that avoids deletion on Fridays.
+
+
+create or replace trigger avoid_del before delete on emp 
+
+begin
+
+      if(to_char(to_date(CURRENT_DATE),'DAY' = 'FRIDAY') then
+                
+                raise_application_error(-20500,'NOT A VALID MONTH');
+      
+      end if;
+           
+end;      
+
+
+Trigger created.
+
+
+
+4) Create a trigger on emp table so that records of 'sunil' not be deleted. 
+
+
+create or replace trigger avoid_delete before delete on emp for each row
+
+begin
+
+      if(:old.empname = 'sunil') then
+                
+                raise_application_error(-20500,'Cannot Delete Sunil's Data');
+      
+      end if;
+           
+end;      
+
+
+Trigger created.
+
 
