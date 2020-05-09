@@ -1,1 +1,252 @@
+1) Write a PL/SQL program using cursors to print empname, designation, salary, experience, depending on the criteria given below:
+    
+    a. If the employee has worked for <1 yr raise an exception not to display his details.
+    b. If the employee has worked for >1 yr and <2 yr increase salary by .15%
+    c. If the employee has worked for >2 yrs increase salary by .2%
+
+
+
+declare
+
+cursor employees_cur is select empno,name,salary,desig,trunc(months_between(sysdate,joindate)/12),expr from employee ;
+
+incre_per number(2);;
+
+    begin
+    
+          dbms_output.put_line(rpad('EmployeeID',15)||(rpad('Name',15)||rpad('Experience',15)||(rpad('Designation',15)||'Salary');
+          
+          dbms_output.put_line('-----------------------------------------------------------------------------------------------');
+       
+          for store_emp_rec in employees_cur
+
+          loop
+
+                    incre_per := case;
+
+                    when store_emp_rec.expr > 2 then 20
+
+                    when store_emp_rec between 1 and 2 then 15
+
+                    else 0
+
+      end;
+      
+                    if incre_per > 0 then 
+
+                            update employee set salary = salary + (salary * incre_per / 100 ) where empno = store_emp_rec.empno ;
+
+                              dbms_output.put_line((rpad(store_emp_rec.empno,15)||rpad(store_emp_rec.name,15)||                         
+                                          (rpad(store_emp_rec.expr,15)||rpad(store_emp_rec.desig,15)||store_emp_rec.salary));
+
+                    else 
+
+                              dbms_output.put_line('Experience Too Low');
+                    end if;
+    
+          end loop;
+
+end;
+
+
+EmployeeID        Name         Experience        Desigantion           Salary
+----------        --------     -----------        ----------          ---------
+1001              Laxamn          28                HR                  7001
+1002              Badri             2               Clerk               4023
+
+Experience Too Low
+Experience Too Low
+Experience Too Low
+
+PL/SQL procedure successfully completed.
+
+
+2) The HRD manager has decided to raise the salary for all the employees in department 
+no:20 by .05% whenever such a raise is given to the employees the record for the same are maintained in empraise table. It includes eno, date when the raise was given andactual raise. Write a PL/SQL program to update sal of each and insert record in empraise table.
+
+SQL> create table empraise(eno number,date_of_raise date,actual_rise float);
+
+Table created.
+
+declare 
+
+        cursor c1 is select * from employee for update of salary;
+        rec employee % rowtype;
+        incr float;
+        
+ begin
+ 
+         open c1;
+         
+         loop
+         
+              fetch c1 into rec;
+              
+              exit when c1 % not found;
+              
+              if (rec.deptno = 20) then
+              
+                    incr := 0.05 * rec.salary ;
+                    
+              else
+              
+                   incr := 0;
+                   
+              end if;
+              
+              if incr > 0 then
+              
+                  update employee set salary = salary + incr where current of c1 ;
+                  
+                  insert into empraise values(rec.empno,sysdate,incr);
+                  
+              else
+                    
+                    
+                 dbms_output.put_line('');
+                 
+              
+              end if;
+                 
+        end loop;
+        
+        close c1;
+        
+ end;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from empraise;
+
+ENO       DATE_OF_R         ACTUAL_RISE
+----      --------          -----------
+102       03-OCT-19         100
+
+
+3) Write a program using cursor to display the details of employees whose sum of sal and comm. Rs>6000
+
+declare 
+
+        cursor sal_comm is select * from employee;
+        rec employee % rowtype;
+        
+ begin
+ 
+         open sal_comm;
+         
+         loop
+         
+              fetch sal_comm into rec;
+              
+              exit when sal_comm % not found;
+              
+              if (rec.salary + rec.comm) > 6000 then
+              
+                    dbms_output.put_line('rec.empno||''||rec.name||''||rec.desig||
+                                         ''||rec.deptno||''||rec.dname||''||
+                                          rec.joindate||''||rec.salary||''||rec.column);
+                    
+              else
+              
+                   exit when sal_comm % notfound ;
+                   
+              end if;
+              
+        end loop;
+        
+        close sal_comm;
+        
+ end;
+
+
+1001 BADRI CLERK 10 IT 29-AUG-19 25000 2000
+
+
+4) Write a program to find the name, salary of employee with netsal(includes sal and comm.) if netsal>6000 display name, salary otherwise throw an exception.
+
+declare 
+
+        cursor sal_comm is select * from employee;
+        rec employee % rowtype;
+        
+ begin
+ 
+         open sal_comm;
+         
+         loop
+         
+              fetch sal_comm into rec;
+              
+              exit when sal_comm % not found;
+              
+              if (rec.salary + rec.comm) > 6000 then
+              
+                    dbms_output.put_line('rec.name||''||rec.salary||''||rec.column);
+                    
+              else
+              
+                   dbms_output.put_line('Salary Too Less');
+                   
+              end if;
+              
+        end loop;
+        
+        close sal_comm;
+ end;
+
+Badri 25000 2000
+Salary Too Less
+Salary Too Less
+Salary Too Less
+
+PL/SQL procedure successfully completed.
+
+
+5) Write a program to increment the salary of all employees by Rs.2000 who belong to deptno=10 and display the number of rows updated using implicit cursors
+
+declare
+
+      c_eno employee.empno % type;
+      c_ename employee.name % type;
+      c_edesig employee.desig % type;
+      c_esalary employee.salary % type;
+      c_edepid employee.deptno % type;
+      c_join employee.joindate % type;
+      c_comm employee.comm % type ;
+      
+cursor emp_cur4 is select empno,name,desig,salary,deptno,joindate,comm from employee ;
+
+begin
+  
+  
+          open emp_cur4;
+          
+          loop
+          
+                fetch emp_cur4 into c_eno,c_ename,c_edesig,c_esalary,c_edepid,c_join,c_comm;
+                
+                exit when emp_cur4 % notfound ;
+                
+                if(c_edepid = 10) then
+                
+                      c_esalary := c_esalary + 2000 ;
+                      
+                      update employee set employee.salary = c_esalary where deptno = 10 ;
+                      
+                end if;
+                
+          end loop ;
+          
+          dbms_output.put_line('The Number Of Rows Updated Is || SQL % rowcount);
+          
+      close emp_cur4;
+
+end;
+
+The Number Of Rows Updated Is 3
+
+PL/SQL procedure successfully completed.
+
+
+
 
