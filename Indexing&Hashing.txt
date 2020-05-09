@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<conio.h>
+#define max 10
+
+void insert(int a[],int val);
+void display(int a[]);
+
+void insert(int a[],int val)
+{
+	int 	index,i,found,hash;
+			found = 0;
+			hash = val% max;
+			if(a[hash] == -1)
+			{
+				a[hash] = val;
+				
+			}
+			else
+			{
+				for (i = 0;i < max; i++)
+				{
+				
+						hash = 7 -(val%7) ;
+						if(a[hash] == -1)
+						{
+							a[hash] = val ;
+							found = 1;
+							break ;
+						}
+					}
+					if (found == 0)
+					{
+						printf(" Cannot Insert Elements ");
+					}
+				}
+			}
+}
+
+
+void display(int a[])
+{
+	int 	i;
+			for(i = 0; i < max ; i++)
+			{
+				printf("\n %d\t%d",i,a[i]);
+			}
+}
+
+void main()
+{
+		int		ch,a[max],i;
+				for(i = 0 ; i < max ; i++)
+				{
+					a[i] = -1 ;
+				}
+				printf(" MENU\n\n")
+				printf(" 1) INSERT \n")
+				printf(" 2) DISPLAY \n");
+				printf(" Enter Choice : ");
+				scanf("%d",&ch);
+				do
+				{
+					switch(ch)
+					{
+						case 1 :
+						
+								{
+										int 	num,key ; 
+										int 	n;
+										do
+										{
+											printf(" Enter Value : ");
+											scanf("%d",&num);
+											insert(a,num):
+											printf(" Enter 1 To Continue : ");
+											scanf("%d",&n);
+											
+										}while(n == 1);
+										
+										break;
+								}
+								
+						case 2 :
+						
+								{
+										display(a);
+										
+										break;
+								}
+					}
+					printf(" Enter Choice : ");
+					scanf("%d",&ch);
+					
+			}while(ch! == 1);
+			printf("\n\n\n The End \n\n\n");
+			
+}
