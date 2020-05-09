@@ -1,1 +1,197 @@
+1) Write a PL/SQL procedure to print the Armstrong number.
 
+
+create or replace procedure armstrong as 
+
+                  n number := &no;
+                  s number := 0;
+                  r number ;
+                  len number ;
+                  m number ;
+begin
+        m := n;
+        len := length(to_char(n)) ;
+        while n > 0
+        loop
+              r: = mod(n,10)
+              s: = s + power(r,len);
+              n: = trunc(n/10);
+              
+        end loop;
+        
+        if m = s then
+                  
+                  dbms_output.put_line('YES');
+        
+        else 
+        
+                  dbms_output.put_line('NO') ; 
+        end if ;
+        
+end ;
+/
+
+Enter value for no: 153
+SQL> execute armstrong;
+YES
+
+PL/SQL procedure successfully completed.
+
+
+2) Write a PL/SQL code to reverse a given number.
+
+declare 
+                  n number := &no;
+                  rev number := 0;
+                  last_digit number ;
+                  
+begin
+        n := &n;
+        while n > 0
+        loop
+              last_digit : = mod(n,10)
+              rev : = (rev * 10) + last_digit;
+              n: = trunc(n/10);
+              
+        end loop; 
+        
+                  dbms_output.put_line('Reverse Is '||rev);
+        
+end ;
+/
+
+Enter value for no: 1234
+Reverse Is 4321
+
+PL/SQL procedure successfully completed.
+
+
+3) Write a PL/SQL function to reverse a given string.
+
+
+create or replace function reverse(str varchar2)
+return varchar2 is
+                 
+                    rev_string varchar2(50);
+                    len number;
+                 
+begin
+        len := length(str) ;
+        for i in reverse 1.... len loop
+                    
+                    rev_string := rev_string || substr(str,i,1);
+              
+        end loop;
+        
+return rev_string;
+
+end ;
+/
+
+Function created.
+
+DECLARE
+
+    rev_string varchar2(50);
+
+BEGIN
+
+    rev_string := reverse('&string') ;
+    dbms_output.put_line(rev_string);
+    
+END;
+
+Enter value for string: hello
+olleh
+
+PL/SQL procedure successfully completed.
+
+
+
+4) Write a PL/SQL code to raise the salary of employee by 10% where their designation is ‘Assistant Professor’.
+
+begin
+      
+      update employee set salary = salary + (salary * 0.1) where desig = 'Assistant Professor';
+
+end ;
+
+PL/SQL procedure successfully completed.
+
+
+
+5) Create a package to perform insert and delete operation on to the employee table.
+
+create or replace package id_package as
+
+            procedure insertion(enamee.name%type,sale.salary%type,e_ide.eid%type,e_desige.designation%type);
+            
+            procedure deletion(e_ide.eid%type);
+
+end id_package ;
+
+create or replace package body id_package as
+
+            procedure insertion(enamee.name%type,sale.salary%type,e_ide.eid%type,e_desige.designation%type) is
+            
+            begin
+            
+                    insert into e values(ename,sal,e_id,e_desig);
+                    
+             end insertion;
+            
+            procedure deletion(e_ide.eid%type) is
+            
+            begin
+            
+                  delete e where e_id = eid ;
+                  
+            end deletion;
+            
+end id_package ;
+
+begin
+
+          id_package.insertion('&name','&salary',&eid,'&designation');
+          
+          id_package.deletion(&eid);
+end;
+
+
+Package created.
+
+Package body created.
+
+PL/SQL procedure successfully completed.   
+
+
+6) Write a PL/SQL procedure to check whether the eno=1001 exist. If it is not raise an exception.
+
+
+
+create or replace procedure record_check as 
+                      
+                      emp_no number
+ 
+ begin 
+ 
+         select empno into emp_no from employee where empno = 1001 ;
+         
+         dbms_outputput_line('RECORD FOUND');
+         
+exception
+
+        
+        when no_data_found then
+        
+        dbms_outputput_line('RECORD NOT FOUND');
+        
+
+end;
+
+
+SQL> execute record_check;
+RECORD NOT FOUND
+
+
+PL/SQL procedure successfully completed.
