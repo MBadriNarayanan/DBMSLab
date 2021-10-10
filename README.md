@@ -1,2 +1,2 @@
 # DBMSLab
-DBMS Lab done in Sem III
+Database Management Systems and Application Lab work done during III Semester
